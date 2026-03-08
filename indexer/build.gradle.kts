@@ -29,7 +29,18 @@ dependencies {
 
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
 
+    // version issue
+    implementation("com.google.protobuf:protobuf-java:3.25.5")
+    implementation("io.grpc:grpc-protobuf:1.65.1")
+    implementation("io.grpc:grpc-stub:1.65.1")
+
+    // vector db
+    implementation("io.qdrant:client:1.12.0")
+
     runtimeOnly("com.h2database:h2")
+
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("org.springframework.batch:spring-batch-test")
 }
 
 kotlin {

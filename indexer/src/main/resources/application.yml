@@ -1,0 +1,36 @@
+spring:
+  batch:
+    jdbc:
+      initialize-schema: always
+    job:
+      enabled: true
+  datasource:
+    url: jdbc:h2:mem:batchdb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+
+# OpenAI Embedding
+openai:
+  api-key: ${OPENAI_API_KEY:}
+  embedding:
+    model: text-embedding-3-small
+    batch-size: 20
+
+# Qdrant
+qdrant:
+  host: ${QDRANT_HOST:localhost}
+  port: ${QDRANT_PORT:6334}
+  api-key: ${QDRANT_API_KEY:}
+  use-tls: ${QDRANT_USE_TLS:false}
+  collection-name: disclosures
+
+# Indexer
+indexer:
+  chunk-size: 500
+  chunk-overlap: 50
+
+logging:
+  level:
+    com.finstream: DEBUG
+    org.springframework.batch: INFO

@@ -1,9 +1,9 @@
 import json
 
-from langchain_google_genai import ChatGoogleGenerativeAI
+from graph.client import get_gemini_llm
 from graph.state import GraphState
 
-llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash", temperature=0.0)
+llm = get_gemini_llm(temperature=0.0)
 
 PROMPT = """당신은 증권 뉴스 감성 분석가입니다.
 아래 뉴스의 감성을 분석하세요.

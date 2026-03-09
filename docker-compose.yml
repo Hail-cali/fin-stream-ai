@@ -1,0 +1,59 @@
+services:
+
+  qdrant:
+    image: qdrant/qdrant:latest
+    ports:
+      - "6333:6333"
+      - "6334:6334"
+    volumes:
+      - qdrant_data:/qdrant/storage
+    environment:
+      QDRANT__SERVICE__GRPC_PORT: 6334
+      QDRANT__STORAGE__PERFORMANCE__MAX_SEARCH_THREADS: 1
+    deploy:
+      resources:
+        limits:
+          memory: 128M
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:6333/healthz"]
+      interval: 30s
+      timeout: 3s
+      retries: 5
+
+  # ── 배치: 공시 인덱싱 (완료 후 종료 → 메모리 반환) ──
+  indexer:
+    build:
+      context: ./indexer
+      dockerfile: Dockerfile
+    depends_on:
+      qdrant:
+        condition: service_healthy
+    environment:
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+      QDRANT_HOST: qdrant
+      QDRANT_PORT: 6334
+      JAVA_OPTS: "-Xmx128m -Xms64m -XX:MaxMetaspaceSize=64m"
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+
+volumes:
+  qdrant_data:
+
+# ============================================================
+#  메모리 예산 — t4g.medium (2 vCPU, 4GB RAM, ~$24/월)
+#
+#  서비스              제한     실행 시점
+#  ──────────────────────────────────────────
+#  Kafka (KRaft)       192MB   상시
+#  Qdrant              128MB   상시
+#  LLM Pipeline        256MB   상시 (stream 모드)
+#  Indexer             256MB   배치 후 종료 → 반환
+#  ──────────────────────────────────────────
+#  상시 합계          ~2.4GB
+#  피크 (+ Indexer)   ~2.6GB
+#  OS                 ~500MB
+#  ──────────────────────────────────────────
+#  피크 총합          ~3.1GB / 4GB  (여유 ~900MB)
+# ============================================================

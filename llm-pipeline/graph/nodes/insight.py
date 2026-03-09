@@ -1,7 +1,7 @@
-from langchain_google_genai import ChatGoogleGenerativeAI
+from graph.client import get_gemini_llm
 from graph.state import GraphState
 
-llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash", temperature=0.2)
+llm = get_gemini_llm(temperature=0.2)
 
 PROMPT = """당신은 증권 투자 인사이트 전문가입니다.
 아래 분석 결과를 바탕으로 1줄 투자 시사점을 작성하세요.

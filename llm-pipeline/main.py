@@ -22,13 +22,12 @@ from dotenv import load_dotenv
 # .env 로드 (프로젝트 루트)
 load_dotenv(os.path.join(os.path.dirname(__file__), "..", ".env"))
 
-# GOOGLE_API_KEY 환경변수 설정 (langchain-google-genai 용)
-gemini_key = os.getenv("GEMINI_API_KEY", "")
-if gemini_key:
-    os.environ["GOOGLE_API_KEY"] = gemini_key
-
+from graph.client import configure_google_api_key
 from graph.pipeline import build_pipeline
 from graph.state import GraphState
+
+# GOOGLE_API_KEY 환경변수 설정 (langchain-google-genai 용)
+configure_google_api_key()
 
 
 # Mock 뉴스 데이터 — 삼성전자 반도체 수출규제 관련

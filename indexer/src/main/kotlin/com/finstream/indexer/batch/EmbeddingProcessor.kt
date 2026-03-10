@@ -21,7 +21,7 @@ class EmbeddingProcessor(
         log.info("Embedding {} chunks for disclosure '{}'", chunks.size, chunks.first().title)
 
         val embeddings = openAiEmbeddingClient.embedBatch(texts)
-
+        log.info("Embedding {} chunks for disclosure '{}'", chunks.size, embeddings.size)
         return chunks.zip(embeddings).map { (chunk, embedding) ->
             EmbeddedChunk(
                 disclosureId = chunk.disclosureId,

@@ -21,6 +21,10 @@ class EmbeddingProcessor(
         log.info("Embedding {} chunks for disclosure '{}'", chunks.size, chunks.first().title)
 
         val embeddings = openAiEmbeddingClient.embedBatch(texts)
+        log.info("Received {} embeddings for disclosure '{}'", embeddings.size, chunks.first().title)
+        require(embeddings.size == chunks.size) {
+            "Embedding count (${embeddings.size}) does not match chunk count (${chunks.size}) for disclosure ${chunks.first().disclosureId}"
+        }
 
         return chunks.zip(embeddings).map { (chunk, embedding) ->
             EmbeddedChunk(

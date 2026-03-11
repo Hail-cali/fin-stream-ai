@@ -1,6 +1,7 @@
 package com.finstream.indexer.client
 
 import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.stereotype.Component
 import org.springframework.web.reactive.function.client.WebClientResponseException
 import org.springframework.web.reactive.function.client.WebClient
@@ -10,7 +11,7 @@ import java.time.Duration
 
 @Component
 class OpenAiEmbeddingClient(
-    private val webClient: WebClient,
+    @Qualifier("openAiWebClient") private val openAiWebClient: WebClient,
     private val properties: OpenAiEmbeddingProperties
 ) {
     private val log = LoggerFactory.getLogger(javaClass)
@@ -26,7 +27,7 @@ class OpenAiEmbeddingClient(
                     "input" to batch
                 )
 
-                webClient.post()
+                openAiWebClient.post()
                     .uri("/embeddings")
                     .bodyValue(requestBody)
                     .retrieve()

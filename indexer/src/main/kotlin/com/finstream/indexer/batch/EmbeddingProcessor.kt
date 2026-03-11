@@ -20,7 +20,8 @@ class EmbeddingProcessor(
         val texts = chunks.map { it.chunkText }
         log.info("Embedding {} chunks for disclosure '{}'", chunks.size, chunks.first().title)
 
-        val embeddings = openAiEmbeddingClient.embedBatch(texts)
+        val embeddings = openAiEmbeddingClient.embedBatch(texts).block()
+            ?: throw IllegalStateException("Failed to receive embeddings from OpenAI")
         log.info("Received {} embeddings for disclosure '{}'", embeddings.size, chunks.first().title)
         require(embeddings.size == chunks.size) {
             "Embedding count (${embeddings.size}) does not match chunk count (${chunks.size}) for disclosure ${chunks.first().disclosureId}"

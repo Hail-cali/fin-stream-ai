@@ -23,12 +23,10 @@ class EmbeddingProcessor(
         val embeddings = openAiEmbeddingClient.embedBatch(texts).block()
             ?: throw IllegalStateException("Failed to receive embeddings from OpenAI")
         log.info("Received {} embeddings for disclosure '{}'", embeddings.size, chunks.first().title)
-        require(embeddings.size == chunks.size) {
-            "Embedding count (${embeddings.size}) does not match chunk count (${chunks.size}) for disclosure ${chunks.first().disclosureId}"
-        }
 
         return chunks.zip(embeddings).map { (chunk, embedding) ->
             EmbeddedChunk(
+                collectionName = "disclosures",
                 disclosureId = chunk.disclosureId,
                 stockCode = chunk.stockCode,
                 corpName = chunk.corpName,

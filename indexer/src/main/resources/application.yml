@@ -34,4 +34,4 @@ indexer:
 logging:
   level:
     com.finstream: DEBUG
-    org.springframework.batch: INFO
+    org.springframework.batch: debug

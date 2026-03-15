@@ -39,7 +39,7 @@ class OpenAiEmbeddingClient(
                             }
                     }
                     .bodyToMono(EmbeddingResponse::class.java)
-                    .timeout(Duration.ofSeconds(30))
+                    .timeout(Duration.ofSeconds(130))
                     .onErrorMap(WebClientResponseException.TooManyRequests::class.java) {
                         OpenAiApiException("OpenAI rate limit exceeded (429). Back off and retry later.")
                     }

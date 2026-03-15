@@ -24,6 +24,7 @@ data class DisclosureChunk(
 )
 
 data class EmbeddedChunk(
+    val collectionName: String,
     val disclosureId: String,
     val stockCode: String,
     val corpName: String,
@@ -32,5 +33,5 @@ data class EmbeddedChunk(
     val totalChunks: Int,
     val chunkText: String,
     val disclosedAt: OffsetDateTime,
-    val embedding: List<Float>
+    val embedding: List<Float>,
 )

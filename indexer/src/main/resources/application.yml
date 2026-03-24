@@ -3,7 +3,7 @@ spring:
     jdbc:
       initialize-schema: always
     job:
-      enabled: true
+      enabled: false
   datasource:
     url: jdbc:h2:mem:batchdb
     driver-class-name: org.h2.Driver
@@ -30,6 +30,9 @@ qdrant:
 indexer:
   chunk-size: 500
   chunk-overlap: 50
+  schedule:
+    cron: ${INDEXER_SCHEDULE_CRON:0 0 2 1 * *}
+    zone: ${INDEXER_SCHEDULE_ZONE:UTC}
 
 logging:
   level:

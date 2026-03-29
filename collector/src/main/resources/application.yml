@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: finstream-collector
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP:localhost:9092}
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+
+server:
+  port: 8082
+
+collector:
+  dart:
+    api-key: ${DART_API_KEY:}
+    enabled: ${DART_ENABLED:true}
+  rss:
+    enabled: ${RSS_ENABLED:true}
+    feeds:
+      - ${RSS_FEED_1:}
+
+logging:
+  level:
+    com.finstream: INFO
+    org.apache.kafka: WARN

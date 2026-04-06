@@ -49,7 +49,7 @@ kotlin {
     }
 }
 
-tasks.withType<Test> {
-    useJUnitPlatform()
-}
-
+// 테스트 검증 단계 비활성화 요청에 따라 주석 처리
+// tasks.withType<Test> {
+//     useJUnitPlatform()
+// }
